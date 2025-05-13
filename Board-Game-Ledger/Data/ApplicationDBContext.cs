@@ -11,7 +11,7 @@ namespace Board_Game_Ledger.Data
             
         }
 
-        public DbSet<BoardGame> boardGames { get; set; }
-        public DbSet<Player> player { get; set; }
+        public DbSet<BoardGame> BoardGames { get; set; }
+        public DbSet<Player> Players { get; set; }
     }
 }

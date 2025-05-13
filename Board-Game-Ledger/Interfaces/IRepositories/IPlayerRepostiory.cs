@@ -7,8 +7,8 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
         Task<List<Player>> GetAllAsync();
         Task<Player?> GetByIdAsync(int id);
         Task<Player?> GetByNameAsync(string name);
-        Task<Player> CreateAsync(BoardGame boardGame);
-        //Task<Player?> UpdateAsync(int id,BoardGame boardGame);
+        Task<Player> CreateAsync(Player player);
+        //Task<Player?> UpdateAsync(int id,UpdatePlayerRequestDto playerDto);
         Task<Player?> DeleteAsync(int id);
     }
 }
