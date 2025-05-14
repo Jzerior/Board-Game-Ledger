@@ -8,16 +8,16 @@ namespace Board_Game_Ledger.Controllers
     [ApiController]
     public class BoardGameController : ControllerBase
     {
-        private readonly IBoardGameRepository _bgrepository;
-        public BoardGameController(BoardGameRepository bgrepository)
+        private readonly IBoardGameRepository _bgRepository;
+        public BoardGameController(BoardGameRepository bgRepository)
         {
-            _bgrepository = bgrepository;
+            _bgRepository = bgRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var boardgames = await _bgrepository.GetAllAsync();
+            var boardgames = await _bgRepository.GetAllAsync();
             if (!boardgames.Any())
             {
                 return NotFound();
@@ -28,7 +28,7 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var boardgame = await _bgrepository.GetByIdAsync(id);
+            var boardgame = await _bgRepository.GetByIdAsync(id);
 
             if (boardgame == null)
             {
@@ -38,9 +38,9 @@ namespace Board_Game_Ledger.Controllers
         }
 
         [HttpDelete("{id:int}")]
-    }   public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var boardgame = await _bgrepository.DeleteAsync(id);
+            var boardgame = await _bgRepository.DeleteAsync(id);
             if (boardgame == null)
             {
                 return NotFound();
