@@ -1,4 +1,6 @@
 using Board_Game_Ledger.Data;
+using Board_Game_Ledger.Interfaces.IRepositories;
+using Board_Game_Ledger.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0, 34))));
+
+builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
+builder.Services.AddScoped<IPlayerRepostiory, PlayerRepository>();
 
 var app = builder.Build();
 

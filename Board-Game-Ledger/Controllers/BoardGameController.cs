@@ -1,8 +1,51 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Board_Game_Ledger.Interfaces.IRepositories;
+using Board_Game_Ledger.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Route("api/boardgame")]
+    [ApiController]
     public class BoardGameController : ControllerBase
     {
+        private readonly IBoardGameRepository _bgrepository;
+        public BoardGameController(BoardGameRepository bgrepository)
+        {
+            _bgrepository = bgrepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var boardgames = await _bgrepository.GetAllAsync();
+            if (!boardgames.Any())
+            {
+                return NotFound();
+            }
+            return Ok(boardgames);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var boardgame = await _bgrepository.GetByIdAsync(id);
+
+            if (boardgame == null)
+            {
+                return NotFound();
+            }
+            return Ok(boardgame);
+        }
+
+        [HttpDelete("{id:int}")]
+    }   public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var boardgame = await _bgrepository.DeleteAsync(id);
+            if (boardgame == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }
