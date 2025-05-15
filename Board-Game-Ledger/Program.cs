@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 34))));
 
 builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
-builder.Services.AddScoped<IPlayerRepostiory, PlayerRepository>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
 var app = builder.Build();
 

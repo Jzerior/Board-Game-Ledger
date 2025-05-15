@@ -2,7 +2,7 @@
 
 namespace Board_Game_Ledger.Interfaces.IRepositories
 {
-    public interface IPlayerRepostiory
+    public interface IPlayerRepository
     {
         Task<List<Player>> GetAllAsync();
         Task<Player?> GetByIdAsync(int id);

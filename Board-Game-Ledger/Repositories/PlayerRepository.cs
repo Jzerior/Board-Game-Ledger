@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Board_Game_Ledger.Repositories
 {
-    public class PlayerRepository : IPlayerRepostiory
+    public class PlayerRepository : IPlayerRepository
     {
         private readonly ApplicationDBContext _context;
         public PlayerRepository(ApplicationDBContext context)

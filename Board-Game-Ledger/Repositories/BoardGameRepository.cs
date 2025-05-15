@@ -31,7 +31,7 @@ namespace Board_Game_Ledger.Repositories
             return boardGame;
         }
 
-        public Task<List<BoardGame>> GetAllAsync()
+        public async Task<List<BoardGame>> GetAllAsync()
         {
             return await _context.BoardGames.ToListAsync();
         }

@@ -6,8 +6,8 @@ namespace Board_Game_Ledger.Controllers
 {
     public class PlayerController : ControllerBase
     {
-        private readonly IPlayerRepostiory _playerRepository;
-        public PlayerController(PlayerRepository playerRepository)
+        private readonly IPlayerRepository _playerRepository;
+        public PlayerController(IPlayerRepository playerRepository)
         {
             _playerRepository = playerRepository;
         }

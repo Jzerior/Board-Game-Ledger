@@ -1,4 +1,6 @@
-﻿using Board_Game_Ledger.Interfaces.IRepositories;
+﻿using Board_Game_Ledger.DTOs.BoardGame;
+using Board_Game_Ledger.Interfaces.IRepositories;
+using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +11,7 @@ namespace Board_Game_Ledger.Controllers
     public class BoardGameController : ControllerBase
     {
         private readonly IBoardGameRepository _bgRepository;
-        public BoardGameController(BoardGameRepository bgRepository)
+        public BoardGameController(IBoardGameRepository bgRepository)
         {
             _bgRepository = bgRepository;
         }
@@ -46,6 +48,17 @@ namespace Board_Game_Ledger.Controllers
                 return NotFound();
             }
             return NoContent();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateBoardGameRequestDto boardGameDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var boardGame = boardGameDto.toBoardGameFromCreateDTO();
+            await _bgRepository.CreateAsync(boardGame);
+            return CreatedAtAction(nameof(GetById), new { id = boardGame.Id }, boardGame);
         }
     }
 }
