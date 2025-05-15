@@ -7,6 +7,7 @@ namespace Board_Game_Ledger.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public List<GameSessionPlayer> GameSessionPlayers { get; set; } = new List<GameSessionPlayer>();
 
     }
 }
