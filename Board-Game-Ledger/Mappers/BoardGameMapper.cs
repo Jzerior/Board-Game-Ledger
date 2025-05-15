@@ -15,5 +15,17 @@ namespace Board_Game_Ledger.Mappers
                 MaxPlayerCount = boardGameDTO.MaxPlayerCount
             };
         }
+
+        public static BoardGameDto toBGDto(this BoardGame boardGame)
+        {
+            return new BoardGameDto
+            {
+                Id = boardGame.Id,
+                Name = boardGame.Name,
+                Genre = boardGame.Genre,
+                MinPlayerCount = boardGame.MinPlayerCount,
+                MaxPlayerCount = boardGame.MaxPlayerCount
+            };
+        }
     }
 }

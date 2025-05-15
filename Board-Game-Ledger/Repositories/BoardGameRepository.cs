@@ -1,4 +1,5 @@
 ﻿using Board_Game_Ledger.Data;
+using Board_Game_Ledger.DTOs.BoardGame;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Models;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,22 @@ namespace Board_Game_Ledger.Repositories
         public async Task<BoardGame?> GetByNameAsync(string name)
         {
             return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Name == name);
+        }
+
+        public async Task<BoardGame?> UpdateAsync(int id, CreateBoardGameRequestDto boardGameDto)
+        {
+            var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
+            if (boardGame == null)
+            {
+                return null;
+            }
+            boardGame.Name = boardGameDto.Name;
+            boardGame.Genre = boardGameDto.Genre;
+            boardGame.MinPlayerCount = boardGameDto.MinPlayerCount;
+            boardGame.MaxPlayerCount = boardGameDto.MaxPlayerCount;
+            await _context.SaveChangesAsync();
+            return boardGame;
+
         }
     }
 }

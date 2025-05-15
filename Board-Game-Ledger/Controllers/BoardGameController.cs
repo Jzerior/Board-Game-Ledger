@@ -20,6 +20,7 @@ namespace Board_Game_Ledger.Controllers
         public async Task<IActionResult> GetAll()
         {
             var boardgames = await _bgRepository.GetAllAsync();
+            var boardgamesDto = boardgames.Select(bg => bg.toBGDto()).ToList();
             if (!boardgames.Any())
             {
                 return NotFound();
@@ -36,7 +37,7 @@ namespace Board_Game_Ledger.Controllers
             {
                 return NotFound();
             }
-            return Ok(boardgame);
+            return Ok(boardgame.toBGDto());
         }
 
         [HttpDelete("{id:int}")]
@@ -58,7 +59,21 @@ namespace Board_Game_Ledger.Controllers
             }
             var boardGame = boardGameDto.toBoardGameFromCreateDTO();
             await _bgRepository.CreateAsync(boardGame);
-            return CreatedAtAction(nameof(GetById), new { id = boardGame.Id }, boardGame);
+            return CreatedAtAction(nameof(GetById), new { id = boardGame.Id }, boardGame.toBGDto());
+        }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateBoardGameRequestDto boardGameDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var boardGame = await _bgRepository.UpdateAsync(id, boardGameDto);
+            if (boardGame == null)
+            {
+                return NotFound();
+            }
+            return Ok(boardGame.toBGDto());
         }
     }
 }
