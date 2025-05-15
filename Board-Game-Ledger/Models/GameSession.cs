@@ -7,10 +7,9 @@ namespace Board_Game_Ledger.Models
     {
         public int Id { get; set; }
         public int BoardGameId { get; set; }
-        public int PlayerId {get; set; }
         public BoardGame BoardGame { get; set; }
         public DateTime PlayedAt { get; set; }
-        public int Duration { get; set; }
+        public int? Duration { get; set; }
         public List<GameSessionPlayer> GameSessionPlayers { get; set; } = new List<GameSessionPlayer>();
     }
 }

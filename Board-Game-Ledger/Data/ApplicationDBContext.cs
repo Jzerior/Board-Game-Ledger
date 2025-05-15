@@ -30,7 +30,7 @@ namespace Board_Game_Ledger.Data
 
             modelBuilder.Entity<GameSessionPlayer>()
                 .HasOne(gsp => gsp.Player)
-                .WithMany(p => p.GameSessionPlayers)
+                .WithMany(p => p.Sessions)
                 .HasForeignKey(gsp => gsp.PlayerId);
         }
     }
