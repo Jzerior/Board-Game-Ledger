@@ -1,4 +1,5 @@
-﻿using Board_Game_Ledger.Models;
+﻿using Board_Game_Ledger.DTOs.GameSession;
+using Board_Game_Ledger.Models;
 
 namespace Board_Game_Ledger.Interfaces.IRepositories
 {
@@ -6,7 +7,7 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
     {
         Task<List<GameSession>> GetAllAsync();
         Task<GameSession?> GetByIdAsync(int id);
-        //Task<GameSession?> CreateAsync(GameSession gameSession);
+        Task<GameSession?> CreateAsync(GameSession gameSession);
         Task<GameSession?> UpdateAsync(int id, GameSession gameSession);
         Task<GameSession?> DeleteAsync(int id);
         Task<List<GameSession>> GetByBoardGameIdAsync(int boardGameId);

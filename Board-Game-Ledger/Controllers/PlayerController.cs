@@ -1,9 +1,13 @@
-﻿using Board_Game_Ledger.Interfaces.IRepositories;
+﻿using Board_Game_Ledger.DTOs.Player;
+using Board_Game_Ledger.Interfaces.IRepositories;
+using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Route("api/player")]
+    [ApiController]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
@@ -44,6 +48,16 @@ namespace Board_Game_Ledger.Controllers
                 return NotFound();
             }
             return NoContent();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreatePlayerRequestDto playerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO());
+            return CreatedAtAction(nameof(GetById), new { id = createdPlayer.Id }, createdPlayer);
         }
     }
 }
