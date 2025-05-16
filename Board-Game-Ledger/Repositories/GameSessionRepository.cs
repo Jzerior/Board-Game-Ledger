@@ -31,6 +31,7 @@ namespace Board_Game_Ledger.Repositories
             return await _context.GameSessions
                 .Include(gs => gs.BoardGame)
                 .Include(gs => gs.GameSessionPlayers)
+                .ThenInclude(gsp => gsp.Player)
                 .ToListAsync();
         }
 
@@ -44,6 +45,7 @@ namespace Board_Game_Ledger.Repositories
             return await _context.GameSessions
                 .Include(gs => gs.BoardGame)
                 .Include(gs => gs.GameSessionPlayers)
+                .ThenInclude(gsp => gsp.Player)
                 .FirstOrDefaultAsync(gs => gs.Id == id);
         }
 

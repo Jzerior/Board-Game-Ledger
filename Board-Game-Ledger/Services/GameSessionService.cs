@@ -1,6 +1,7 @@
 ﻿using Board_Game_Ledger.DTOs.GameSession;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
+using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,13 +62,15 @@ namespace Board_Game_Ledger.Services
             }
             return session;
         }
-        public async Task<List<GameSession>> GetAllAsync() 
+        public async Task<List<GameSessionDto>> GetAllAsync() 
         {
-            return await _gameSessionRepository.GetAllAsync();
+           var gameSessions =  await _gameSessionRepository.GetAllAsync();
+           return gameSessions.Select(gs => gs.ToDto()).ToList();
         }
-        public async Task<GameSession?> GetByIdAsync(int id)
+        public async Task<GameSessionDto?> GetByIdAsync(int id)
         {
-            return await _gameSessionRepository.GetByIdAsync(id);
+           var gameSession = await _gameSessionRepository.GetByIdAsync(id);
+           return gameSession.ToDto();
         }
 
     }

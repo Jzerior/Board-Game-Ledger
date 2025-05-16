@@ -6,7 +6,7 @@ namespace Board_Game_Ledger.Interfaces.IServices
     public interface IGameSessionService
     {
         Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto);
-        Task<GameSession?> GetByIdAsync(int id);
-        Task<List<GameSession>> GetAllAsync();
+        Task<GameSessionDto?> GetByIdAsync(int id);
+        Task<List<GameSessionDto>> GetAllAsync();
     }
 }

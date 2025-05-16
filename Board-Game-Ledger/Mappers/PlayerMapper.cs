@@ -12,5 +12,13 @@ namespace Board_Game_Ledger.Mappers
                 Name = playerDto.Name,
             };
         }
+        public static PlayerDto toPlayerDTO(this Player player)
+        {
+            return new PlayerDto
+            {
+                Id = player.Id,
+                Name = player.Name,
+            };
+        }
     }
 }
