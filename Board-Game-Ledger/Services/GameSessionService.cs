@@ -10,9 +10,11 @@ namespace Board_Game_Ledger.Services
     public class GameSessionService : IGameSessionService
     {
         private readonly IGameSessionRepository _gameSessionRepository;
-        public GameSessionService(IGameSessionRepository gameSessionRepository)
+        private readonly IGameSessionPlayerRepository _gameSessionPlayerRepository;
+        public GameSessionService(IGameSessionRepository gameSessionRepository, IGameSessionPlayerRepository gameSessionPlayerRepository)
         {
             _gameSessionRepository = gameSessionRepository;
+            _gameSessionPlayerRepository = gameSessionPlayerRepository;
         }
         public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto)
         {
@@ -21,9 +23,9 @@ namespace Board_Game_Ledger.Services
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
-                //GameSessionPlayers = new List<GameSessionPlayer>()
             };
-
+            await _gameSessionRepository.CreateAsync(session);
+            int sessionId = session.Id;
             foreach (var playerDto in dto.GameSessionPlayers)
             {
 
@@ -52,15 +54,14 @@ namespace Board_Game_Ledger.Services
                 //        playerId = newPlayer.Id;
                 //    }
                 //}
-
-                //session.GameSessionPlayers.Add(new GameSessionPlayer
-                //{
-                //    PlayerId = playerDto.PlayerId,
-                //    Place = playerDto.Place,
-                //    Score = playerDto.Score
-                //});
+                _gameSessionPlayerRepository.CreateAsync(new GameSessionPlayer
+                {
+                    GameSessionId = sessionId,
+                    PlayerId = playerDto.PlayerId,
+                    Place = playerDto.Place,
+                    Score = playerDto.Score
+                });
             }
-            await _gameSessionRepository.CreateAsync(session);
             return session;
         }
         public async Task<List<GameSessionDto>> GetAllAsync() 
