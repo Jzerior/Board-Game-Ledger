@@ -21,7 +21,7 @@ namespace Board_Game_Ledger.Services
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
-                GameSessionPlayers = new List<GameSessionPlayer>()
+                //GameSessionPlayers = new List<GameSessionPlayer>()
             };
 
             foreach (var playerDto in dto.GameSessionPlayers)
@@ -53,13 +53,14 @@ namespace Board_Game_Ledger.Services
                 //    }
                 //}
 
-                session.GameSessionPlayers.Add(new GameSessionPlayer
-                {
-                    PlayerId = playerDto.PlayerId,
-                    Place = playerDto.Place,
-                    Score = playerDto.Score
-                });
+                //session.GameSessionPlayers.Add(new GameSessionPlayer
+                //{
+                //    PlayerId = playerDto.PlayerId,
+                //    Place = playerDto.Place,
+                //    Score = playerDto.Score
+                //});
             }
+            await _gameSessionRepository.CreateAsync(session);
             return session;
         }
         public async Task<List<GameSessionDto>> GetAllAsync() 
