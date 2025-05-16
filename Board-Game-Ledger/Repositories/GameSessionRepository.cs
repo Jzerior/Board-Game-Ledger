@@ -2,6 +2,7 @@
 using Board_Game_Ledger.DTOs.GameSession;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Board_Game_Ledger.Repositories
 {
@@ -13,9 +14,11 @@ namespace Board_Game_Ledger.Repositories
             _context = context;
         }
 
-        public Task<GameSession?> CreateAsync(GameSession gameSession)
+        public async Task<GameSession?> CreateAsync(GameSession gameSession)
         {
-            throw new NotImplementedException();
+            await _context.GameSessions.AddAsync(gameSession);
+            await _context.SaveChangesAsync();
+            return gameSession; 
         }
 
         public Task<GameSession?> DeleteAsync(int id)
@@ -23,9 +26,12 @@ namespace Board_Game_Ledger.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<List<GameSession>> GetAllAsync()
+        public async Task<List<GameSession>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.GameSessions
+                .Include(gs => gs.BoardGame)
+                .Include(gs => gs.GameSessionPlayers)
+                .ToListAsync();
         }
 
         public Task<List<GameSession>> GetByBoardGameIdAsync(int boardGameId)
@@ -33,9 +39,12 @@ namespace Board_Game_Ledger.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<GameSession?> GetByIdAsync(int id)
+        public async Task<GameSession?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.GameSessions
+                .Include(gs => gs.BoardGame)
+                .Include(gs => gs.GameSessionPlayers)
+                .FirstOrDefaultAsync(gs => gs.Id == id);
         }
 
         public Task<List<GameSession>> GetByPlayerIdAsync(int playerId)
