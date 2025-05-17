@@ -15,6 +15,7 @@ namespace Board_Game_Ledger.Mappers
                 PlayedAt = gameSession.PlayedAt,
                 Duration = gameSession.Duration,
                 BoardGame = gameSession.BoardGame.toBGDto(),
+                PlayerCount = gameSession.PlayerCount,
                 GameSessionPlayers = gameSession.GameSessionPlayers?
             .Select(p => new GameSessionPlayerDto
             {

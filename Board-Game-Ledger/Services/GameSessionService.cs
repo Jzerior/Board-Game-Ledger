@@ -42,6 +42,7 @@ namespace Board_Game_Ledger.Services
                     Place = playerDto.Place,
                     Score = playerDto.Score
                 });
+                Console.WriteLine("Player " + player.Name+" id: "+player.Id);
             }
             await _gameSessionPlayerRepository.CreateRangeAsync(players);
             return session;
@@ -54,8 +55,15 @@ namespace Board_Game_Ledger.Services
         public async Task<GameSessionDto?> GetByIdAsync(int id)
         {
            var gameSession = await _gameSessionRepository.GetByIdAsync(id);
+            if(gameSession == null)
+            {
+                return null;
+            }
            return gameSession.ToDto();
         }
-
+        public async Task<GameSession> DeleteAsync(int id)
+        {
+            return await _gameSessionRepository.DeleteAsync(id);
+        }
     }
 }

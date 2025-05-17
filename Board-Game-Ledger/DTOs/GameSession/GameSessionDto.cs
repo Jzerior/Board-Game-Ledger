@@ -10,6 +10,7 @@ namespace Board_Game_Ledger.DTOs.GameSession
         public BoardGameDto BoardGame { get; set; }
         public DateTime PlayedAt { get; set; }
         public int? Duration { get; set; }
+        public int PlayerCount { get; set; }
         public List<GameSessionPlayerDto> GameSessionPlayers { get; set; } = new List<GameSessionPlayerDto>();
     }
 }

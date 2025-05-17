@@ -21,17 +21,19 @@ namespace Board_Game_Ledger.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<GameSessionPlayer>(x => x.HasKey(gsp => new { gsp.GameSessionId, gsp.PlayerId }));
-                
+
 
             modelBuilder.Entity<GameSessionPlayer>()
                 .HasOne(gsp => gsp.GameSession)
                 .WithMany(gs => gs.GameSessionPlayers)
-                .HasForeignKey(gsp => gsp.GameSessionId);
+                .HasForeignKey(gsp => gsp.GameSessionId)
+                .OnDelete(DeleteBehavior.Cascade); // jawnie!
 
             modelBuilder.Entity<GameSessionPlayer>()
                 .HasOne(gsp => gsp.Player)
                 .WithMany(p => p.Sessions)
-                .HasForeignKey(gsp => gsp.PlayerId);
+                .HasForeignKey(gsp => gsp.PlayerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

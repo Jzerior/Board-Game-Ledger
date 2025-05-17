@@ -21,9 +21,16 @@ namespace Board_Game_Ledger.Repositories
             return gameSession; 
         }
 
-        public Task<GameSession?> DeleteAsync(int id)
+        public async Task<GameSession?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id);
+            if(session == null)
+            {
+                return null;
+            }
+            _context.GameSessions.Remove(session);
+            await _context.SaveChangesAsync();
+            return session;
         }
 
         public async Task<List<GameSession>> GetAllAsync()

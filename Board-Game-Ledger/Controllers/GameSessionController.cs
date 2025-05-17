@@ -37,5 +37,13 @@ namespace Board_Game_Ledger.Controllers
                 return NotFound();
             return Ok(session);
         }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var session = await _gameSessionService.DeleteAsync(id);
+            if (session == null)
+                return NotFound();
+            return NoContent();
+        }
     }
 }
