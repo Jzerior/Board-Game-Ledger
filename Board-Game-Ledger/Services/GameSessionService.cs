@@ -27,6 +27,7 @@ namespace Board_Game_Ledger.Services
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
+                PlayerCount = dto.GameSessionPlayers.Count()
             };
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;

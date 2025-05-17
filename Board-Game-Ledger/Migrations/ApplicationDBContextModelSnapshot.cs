@@ -60,13 +60,13 @@ namespace Board_Game_Ledger.Migrations
                     b.Property<int>("BoardGameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Duration")
+                    b.Property<int?>("Duration")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("PlayedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int>("PlayerCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -84,7 +84,7 @@ namespace Board_Game_Ledger.Migrations
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Place")
+                    b.Property<int?>("Place")
                         .HasColumnType("int");
 
                     b.Property<int?>("Score")
@@ -117,7 +117,7 @@ namespace Board_Game_Ledger.Migrations
             modelBuilder.Entity("Board_Game_Ledger.Models.GameSession", b =>
                 {
                     b.HasOne("Board_Game_Ledger.Models.BoardGame", "BoardGame")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("BoardGameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -134,7 +134,7 @@ namespace Board_Game_Ledger.Migrations
                         .IsRequired();
 
                     b.HasOne("Board_Game_Ledger.Models.Player", "Player")
-                        .WithMany("GameSessionPlayers")
+                        .WithMany("Sessions")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -144,6 +144,11 @@ namespace Board_Game_Ledger.Migrations
                     b.Navigation("Player");
                 });
 
+            modelBuilder.Entity("Board_Game_Ledger.Models.BoardGame", b =>
+                {
+                    b.Navigation("Sessions");
+                });
+
             modelBuilder.Entity("Board_Game_Ledger.Models.GameSession", b =>
                 {
                     b.Navigation("GameSessionPlayers");
@@ -151,7 +156,7 @@ namespace Board_Game_Ledger.Migrations
 
             modelBuilder.Entity("Board_Game_Ledger.Models.Player", b =>
                 {
-                    b.Navigation("GameSessionPlayers");
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

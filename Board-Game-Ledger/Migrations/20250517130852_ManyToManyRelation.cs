@@ -19,9 +19,9 @@ namespace Board_Game_Ledger.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BoardGameId = table.Column<int>(type: "int", nullable: false),
-                    PlayerId = table.Column<int>(type: "int", nullable: false),
                     PlayedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false)
+                    PlayerCount = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,7 +41,7 @@ namespace Board_Game_Ledger.Migrations
                 {
                     GameSessionId = table.Column<int>(type: "int", nullable: false),
                     PlayerId = table.Column<int>(type: "int", nullable: false),
-                    Place = table.Column<int>(type: "int", nullable: false),
+                    Place = table.Column<int>(type: "int", nullable: true),
                     Score = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
