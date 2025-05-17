@@ -22,6 +22,13 @@ namespace Board_Game_Ledger.Repositories
             return gameSessionPlayer;
         }
 
+        public async Task<List<GameSessionPlayer>> CreateRangeAsync(List<GameSessionPlayer> gameSessionPlayers)
+        {
+            await _context.AddRangeAsync(gameSessionPlayers);
+            await _context.SaveChangesAsync();
+            return gameSessionPlayers;
+        }
+
         public Task<GameSessionPlayer?> DeleteAsync(int gameSessionId, int playerId)
         {
             throw new NotImplementedException();

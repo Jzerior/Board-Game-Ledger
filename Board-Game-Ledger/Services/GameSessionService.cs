@@ -11,10 +11,14 @@ namespace Board_Game_Ledger.Services
     {
         private readonly IGameSessionRepository _gameSessionRepository;
         private readonly IGameSessionPlayerRepository _gameSessionPlayerRepository;
-        public GameSessionService(IGameSessionRepository gameSessionRepository, IGameSessionPlayerRepository gameSessionPlayerRepository)
+        private readonly IPlayerService _playerService;
+        public GameSessionService(IGameSessionRepository gameSessionRepository,
+               IGameSessionPlayerRepository gameSessionPlayerRepository,
+               IPlayerService playerService)
         {
             _gameSessionRepository = gameSessionRepository;
             _gameSessionPlayerRepository = gameSessionPlayerRepository;
+            _playerService = playerService;
         }
         public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto)
         {
@@ -26,42 +30,19 @@ namespace Board_Game_Ledger.Services
             };
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
+            var players = new List<GameSessionPlayer>();
             foreach (var playerDto in dto.GameSessionPlayers)
             {
-
-                //if (playerDto.PlayerId.HasValue)
-                //{
-                //    var existingPlayer = await _playerRepository.GetByIdAsync(playerDto.PlayerId.Value);
-                //    if (existingPlayer == null)
-                //        throw new Exception($"Player with ID {playerDto.PlayerId} not found.");
-                //    playerId = existingPlayer.Id;
-                //}
-                //else
-                //{
-                //    if (string.IsNullOrWhiteSpace(playerDto.Name))
-                //        throw new Exception("Player name is required for new players.");
-
-                //    var existing = await _context.Players
-                //        .FirstOrDefaultAsync(p => p.Name == playerDto.Name);
-
-                //    if (existing != null)
-                //        playerId = existing.Id;
-                //    else
-                //    {
-                //        var newPlayer = new Player { Name = playerDto.Name };
-                //        _context.Players.Add(newPlayer);
-                //        await _context.SaveChangesAsync();
-                //        playerId = newPlayer.Id;
-                //    }
-                //}
-                _gameSessionPlayerRepository.CreateAsync(new GameSessionPlayer
+                var player = await  _playerService.GetByNameOrCreateIfDoesNotExist(playerDto.Name);
+                players.Add(new GameSessionPlayer
                 {
                     GameSessionId = sessionId,
-                    PlayerId = playerDto.PlayerId,
+                    PlayerId = player.Id,
                     Place = playerDto.Place,
                     Score = playerDto.Score
                 });
             }
+            await _gameSessionPlayerRepository.CreateRangeAsync(players);
             return session;
         }
         public async Task<List<GameSessionDto>> GetAllAsync() 

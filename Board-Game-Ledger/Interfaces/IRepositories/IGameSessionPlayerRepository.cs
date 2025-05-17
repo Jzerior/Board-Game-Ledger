@@ -12,5 +12,6 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
         Task<GameSessionPlayer?> DeleteAsync(int gameSessionId, int playerId);
         Task<List<GameSessionPlayer>> GetByGameSessionIdAsync(int gameSessionId);
         Task<List<GameSessionPlayer>> GetByPlayerIdAsync(int playerId);
+        Task<List<GameSessionPlayer>> CreateRangeAsync(List<GameSessionPlayer> gameSessionPlayers);
     }
 }

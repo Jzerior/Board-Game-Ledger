@@ -1,4 +1,5 @@
-﻿using Board_Game_Ledger.Data;
+﻿using System.Numerics;
+using Board_Game_Ledger.Data;
 using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Models;
@@ -18,6 +19,13 @@ namespace Board_Game_Ledger.Repositories
             await _context.Players.AddAsync(player);
             await _context.SaveChangesAsync();
             return player;
+        }
+
+        public async Task<List<Player>> CreateRangeAsync(List<Player> players)
+        {
+            await _context.Players.AddRangeAsync(players);
+            await _context.SaveChangesAsync();
+            return players;
         }
 
         public async Task<Player?> DeleteAsync(int id)

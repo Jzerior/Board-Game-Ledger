@@ -1,5 +1,6 @@
 ﻿using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
+using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,11 @@ namespace Board_Game_Ledger.Controllers
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;
-        public PlayerController(IPlayerRepository playerRepository)
+        private readonly IPlayerService _playerService;
+        public PlayerController(IPlayerRepository playerRepository, IPlayerService playerService)
         {
             _playerRepository = playerRepository;
+            _playerService = playerService;
         }
 
         [HttpGet]
@@ -58,6 +61,16 @@ namespace Board_Game_Ledger.Controllers
             }
             var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO());
             return CreatedAtAction(nameof(GetById), new { id = createdPlayer.Id }, createdPlayer);
+        }
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetByNameOrCreateIfDoesNotExist([FromRoute] string name)
+        {
+            var player = await _playerService.GetByNameOrCreateIfDoesNotExist(name);
+            if (player == null)
+            {
+                return NotFound();
+            }
+            return Ok(player);
         }
     }
 }

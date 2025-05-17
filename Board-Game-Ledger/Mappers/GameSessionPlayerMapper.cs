@@ -21,7 +21,7 @@ namespace Board_Game_Ledger.Mappers
         {
             return new GameSessionPlayer
             {
-                PlayerId = (int)gameSessionPlayerDTO.PlayerId,
+                //PlayerId = (int)gameSessionPlayerDTO.PlayerId,
                 //GameSessionId = gameSessionPlayerDTO.GameSessionId,
                 Score = gameSessionPlayerDTO.Score,
                 Place = gameSessionPlayerDTO.Place
