@@ -22,13 +22,33 @@ namespace Board_Game_Ledger.Controllers
             {
                 return NotFound();
             }
-            return Ok(gameSessionPlayers);
+            return Ok(gameSessionPlayers.Select(gsp => gsp.toDto()));
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateGameSessionPlayerRequestDto gameSessionPlayerDto)
         {
             var createdGameSessionPlayer = await _gameSessionPlayerRepository.CreateAsync(gameSessionPlayerDto.toGameSessionPlayerFromCreateDto());
             return Ok(createdGameSessionPlayer);
+        }
+        [HttpDelete("{gameSessionId:int}/{playerId:int}")]
+        public async Task<IActionResult> Delete(int gameSessionId, int playerId)
+        {
+            var deletedGameSessionPlayer = await _gameSessionPlayerRepository.DeleteAsync(gameSessionId, playerId);
+            if (deletedGameSessionPlayer == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+        [HttpPut("{gameSessionId:int}/{playerId:int}")]
+        public async Task<IActionResult> Update(int gameSessionId, int playerId, [FromBody] UpdateGameSessionPlayerRequestDto gameSessionPlayerDto)
+        {
+            var updatedGameSessionPlayer = await _gameSessionPlayerRepository.UpdateAsync(gameSessionId, playerId, gameSessionPlayerDto);
+            if (updatedGameSessionPlayer == null)
+            {
+                return NotFound();
+            }
+            return Ok(updatedGameSessionPlayer.toDto());
         }
     }
 }

@@ -21,10 +21,19 @@ namespace Board_Game_Ledger.Mappers
         {
             return new GameSessionPlayer
             {
-                //PlayerId = (int)gameSessionPlayerDTO.PlayerId,
-                //GameSessionId = gameSessionPlayerDTO.GameSessionId,
                 Score = gameSessionPlayerDTO.Score,
                 Place = gameSessionPlayerDTO.Place
+            };
+        }
+        public static GameSessionPlayerDto toDto(this GameSessionPlayer gameSessionPlayer)
+        {
+            return new GameSessionPlayerDto
+            {
+                PlayerId = gameSessionPlayer.PlayerId,
+                GameSessionId = gameSessionPlayer.GameSessionId,
+                Score = gameSessionPlayer.Score,
+                Place = gameSessionPlayer.Place,
+                Player = gameSessionPlayer.Player.toPlayerDTO()
             };
         }
     }
