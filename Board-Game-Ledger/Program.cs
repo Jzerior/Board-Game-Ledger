@@ -1,4 +1,5 @@
 using Board_Game_Ledger.Data;
+using Board_Game_Ledger.Interfaces;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Models;
@@ -68,6 +69,7 @@ builder.Services.AddScoped<IGameSessionPlayerRepository, GameSessionPlayerReposi
 
 builder.Services.AddScoped<IGameSessionService, GameSessionService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
