@@ -61,9 +61,19 @@ namespace Board_Game_Ledger.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<GameSession?> UpdateAsync(int id, GameSession gameSession)
+        public async Task<GameSession?> UpdateAsync(int id, GameSession gameSession)
         {
-            throw new NotImplementedException();
+            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id);
+            if (session == null)
+            {
+                return null;
+            }
+            session.BoardGameId = gameSession.BoardGameId;
+            session.PlayedAt = gameSession.PlayedAt;
+            session.Duration = gameSession.Duration;
+            //session.PlayerCount = gameSession.PlayerCount;
+            await _context.SaveChangesAsync();
+            return session;
         }
     }
 }

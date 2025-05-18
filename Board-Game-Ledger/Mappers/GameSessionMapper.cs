@@ -27,5 +27,25 @@ namespace Board_Game_Ledger.Mappers
             };
 
         }
+        public static GameSession toGameSessionFromCreateRequest(this CreateGameSessionRequestDto dto)
+        {
+            return new GameSession
+            {
+                BoardGameId = dto.BoardGameId,
+                PlayedAt = dto.PlayedAt,
+                Duration = dto.Duration,
+                PlayerCount = dto.GameSessionPlayers.Count()
+            };
+        }
+        public static GameSession toGameSessionFromUpdateRequest(this UpdateGameSessionRequestDto dto)
+        {
+            return new GameSession
+            {
+                BoardGameId = dto.BoardGameId,
+                PlayedAt = dto.PlayedAt,
+                Duration = dto.Duration,
+                //PlayerCount = dto.GameSessionPlayers.Count()
+            };
+        }
     }
 }

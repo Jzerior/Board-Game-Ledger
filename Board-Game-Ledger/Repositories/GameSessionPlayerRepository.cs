@@ -80,6 +80,7 @@ namespace Board_Game_Ledger.Repositories
         public async Task<GameSessionPlayer?> UpdateAsync(int gameSessionId, int playerId, UpdateGameSessionPlayerRequestDto gameSessionPlayerDto)
         {
             var gameSessionPlayer = await _context.GameSessionPlayers
+                .Include(gsp => gsp.Player)
                 .FirstOrDefaultAsync(gsp => gsp.GameSessionId == gameSessionId && gsp.PlayerId == playerId);
             if (gameSessionPlayer == null) return null;
             gameSessionPlayer.Place = gameSessionPlayerDto.Place;

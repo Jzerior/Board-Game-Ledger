@@ -45,5 +45,13 @@ namespace Board_Game_Ledger.Controllers
                 return NotFound();
             return NoContent();
         }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateGameSessionRequestDto gameSession)
+        {
+            var updatedSession = await _gameSessionService.UpdateAsync(id, gameSession);
+            if (updatedSession == null)
+                return NotFound();
+            return Ok(updatedSession);
+        }
     }
 }

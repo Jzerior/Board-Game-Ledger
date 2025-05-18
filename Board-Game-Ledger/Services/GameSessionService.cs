@@ -22,13 +22,7 @@ namespace Board_Game_Ledger.Services
         }
         public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto)
         {
-            var session = new GameSession
-            {
-                BoardGameId = dto.BoardGameId,
-                PlayedAt = dto.PlayedAt,
-                Duration = dto.Duration,
-                PlayerCount = dto.GameSessionPlayers.Count()
-            };
+            var session = dto.toGameSessionFromCreateRequest();
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
             var players = new List<GameSessionPlayer>();
@@ -64,6 +58,11 @@ namespace Board_Game_Ledger.Services
         public async Task<GameSession> DeleteAsync(int id)
         {
             return await _gameSessionRepository.DeleteAsync(id);
+        }
+
+        public async Task<GameSession?> UpdateAsync(int id, UpdateGameSessionRequestDto gameSessionDto)
+        {
+            return await _gameSessionRepository.UpdateAsync(id, gameSessionDto.toGameSessionFromUpdateRequest());
         }
     }
 }
