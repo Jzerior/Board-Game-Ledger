@@ -9,7 +9,7 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
         Task<Player?> GetByIdAsync(int id);
         Task<Player?> GetByNameAsync(string name);
         Task<Player> CreateAsync(Player player);
-        Task<Player?> UpdateAsync(int id,CreatePlayerRequestDto playerDto);
+        Task<Player?> UpdateAsync(int id,UpdatePlayerRequestDto playerDto);
         Task<Player?> DeleteAsync(int id);
         Task<List<Player>> CreateRangeAsync(List<Player> players);
     }

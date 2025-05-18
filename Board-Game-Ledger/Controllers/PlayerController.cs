@@ -73,7 +73,7 @@ namespace Board_Game_Ledger.Controllers
             return Ok(player);
         }
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] CreatePlayerRequestDto playerDto)
+        public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UpdatePlayerRequestDto playerDto)
         {
             var player = await _playerRepository.UpdateAsync(id,playerDto);
             if (player == null)

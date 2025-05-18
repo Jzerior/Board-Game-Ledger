@@ -2,6 +2,7 @@
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
+using Board_Game_Ledger.Models;
 
 namespace Board_Game_Ledger.Services
 {
@@ -22,6 +23,11 @@ namespace Board_Game_Ledger.Services
                     Name = name
                 });
             }
+            return player.toPlayerDTO();
+        }
+        public async Task<PlayerDto> UpdateAsync(int id, UpdatePlayerRequestDto playerDto)
+        {
+            var player = await _playerRepository.UpdateAsync(id, playerDto);
             return player.toPlayerDTO();
         }
     }

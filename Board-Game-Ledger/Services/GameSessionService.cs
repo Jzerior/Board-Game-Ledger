@@ -1,4 +1,5 @@
 ﻿using Board_Game_Ledger.DTOs.GameSession;
+using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
@@ -36,7 +37,6 @@ namespace Board_Game_Ledger.Services
                     Place = playerDto.Place,
                     Score = playerDto.Score
                 });
-                Console.WriteLine("Player " + player.Name+" id: "+player.Id);
             }
             await _gameSessionPlayerRepository.CreateRangeAsync(players);
             return session;
@@ -62,6 +62,14 @@ namespace Board_Game_Ledger.Services
 
         public async Task<GameSession?> UpdateAsync(int id, UpdateGameSessionRequestDto gameSessionDto)
         {
+            foreach (var playerDto in gameSessionDto.GameSessionPlayers)
+            {
+                await _playerService.UpdateAsync(playerDto.PlayerId, new UpdatePlayerRequestDto
+                {
+                    Name= playerDto.Name
+                });
+                await _gameSessionPlayerRepository.UpdateAsync(id, playerDto.PlayerId, playerDto);
+            }
             return await _gameSessionRepository.UpdateAsync(id, gameSessionDto.toGameSessionFromUpdateRequest());
         }
     }

@@ -12,6 +12,6 @@ namespace Board_Game_Ledger.DTOs.GameSession
         [Required]
         [Range(1, 9999, ErrorMessage = "Czas gry nie może być krótszy niż 1 minuta i dłuższy niż 9999 minut")]
         public int? Duration { get; set; }
-        public List<CreateGameSessionPlayerRequestDto> GameSessionPlayers { get; set; } = new List<CreateGameSessionPlayerRequestDto>();
+        public List<UpdateGameSessionPlayerRequestDto> GameSessionPlayers { get; set; } = new List<UpdateGameSessionPlayerRequestDto>();
     }
 }
