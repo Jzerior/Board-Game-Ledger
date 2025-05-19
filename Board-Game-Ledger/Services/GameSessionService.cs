@@ -1,11 +1,9 @@
-﻿using System.Security.Claims;
-using Board_Game_Ledger.DTOs.GameSession;
+﻿using Board_Game_Ledger.DTOs.GameSession;
 using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Board_Game_Ledger.Services
 {
