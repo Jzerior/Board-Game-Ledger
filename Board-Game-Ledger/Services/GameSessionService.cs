@@ -4,7 +4,6 @@ using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
 using Board_Game_Ledger.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Board_Game_Ledger.Services
 {
@@ -21,9 +20,9 @@ namespace Board_Game_Ledger.Services
             _gameSessionPlayerRepository = gameSessionPlayerRepository;
             _playerService = playerService;
         }
-        public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto)
+        public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string appUserId)
         {
-            var session = dto.toGameSessionFromCreateRequest();
+            var session = dto.toGameSessionFromCreateRequest(appUserId);
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
             var players = new List<GameSessionPlayer>();

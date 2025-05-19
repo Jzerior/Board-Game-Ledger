@@ -1,12 +1,14 @@
-﻿using Board_Game_Ledger.DTOs.Player;
+﻿using System.Security.Claims;
+using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
-using Board_Game_Ledger.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Authorize]
     [Route("api/player")]
     [ApiController]
     public class PlayerController : ControllerBase
@@ -59,7 +61,8 @@ namespace Board_Game_Ledger.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO());
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO(appUserId));
             return CreatedAtAction(nameof(GetById), new { id = createdPlayer.Id }, createdPlayer);
         }
         [HttpGet("{name}")]

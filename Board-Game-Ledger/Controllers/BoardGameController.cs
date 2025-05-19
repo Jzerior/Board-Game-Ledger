@@ -1,11 +1,13 @@
-﻿using Board_Game_Ledger.DTOs.BoardGame;
+﻿using System.Security.Claims;
+using Board_Game_Ledger.DTOs.BoardGame;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Mappers;
-using Board_Game_Ledger.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Authorize]
     [Route("api/boardgame")]
     [ApiController]
     public class BoardGameController : ControllerBase
@@ -15,7 +17,6 @@ namespace Board_Game_Ledger.Controllers
         {
             _bgRepository = bgRepository;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -27,7 +28,6 @@ namespace Board_Game_Ledger.Controllers
             }
             return Ok(boardgames);
         }
-
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
@@ -39,7 +39,6 @@ namespace Board_Game_Ledger.Controllers
             }
             return Ok(boardgame.toBGDto());
         }
-
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
@@ -50,6 +49,7 @@ namespace Board_Game_Ledger.Controllers
             }
             return NoContent();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBoardGameRequestDto boardGameDto)
         {
@@ -57,12 +57,13 @@ namespace Board_Game_Ledger.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var boardGame = boardGameDto.toBoardGameFromCreateDTO();
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var boardGame = boardGameDto.toBoardGameFromCreateDTO(appUserId);
             await _bgRepository.CreateAsync(boardGame);
             return CreatedAtAction(nameof(GetById), new { id = boardGame.Id }, boardGame.toBGDto());
         }
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateBoardGameRequestDto boardGameDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateBoardGameRequestDto boardGameDto)
         {
             if (!ModelState.IsValid)
             {
