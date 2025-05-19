@@ -9,7 +9,7 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
         Task<BoardGame?> GetByIdAsync(int id);
         Task<BoardGame?> GetByNameAsync(string name);
         Task<BoardGame> CreateAsync(BoardGame boardGame);
-        Task<BoardGame?> UpdateAsync(int id,CreateBoardGameRequestDto boardGameDto);
+        Task<BoardGame?> UpdateAsync(int id,UpdateBoardGameRequestDto boardGameDto);
         Task<BoardGame?> DeleteAsync(int id);
     }
 }

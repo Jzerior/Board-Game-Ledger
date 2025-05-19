@@ -1,4 +1,5 @@
-﻿using Board_Game_Ledger.DTOs.GameSession;
+﻿using System.Security.Claims;
+using Board_Game_Ledger.DTOs.GameSession;
 using Board_Game_Ledger.DTOs.Player;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
@@ -21,9 +22,9 @@ namespace Board_Game_Ledger.Services
             _gameSessionPlayerRepository = gameSessionPlayerRepository;
             _playerService = playerService;
         }
-        public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto)
+        public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string appUserId)
         {
-            var session = dto.toGameSessionFromCreateRequest();
+            var session = dto.toGameSessionFromCreateRequest(appUserId);
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
             var players = new List<GameSessionPlayer>();

@@ -47,7 +47,7 @@ namespace Board_Game_Ledger.Repositories
             return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Name == name);
         }
 
-        public async Task<BoardGame?> UpdateAsync(int id, CreateBoardGameRequestDto boardGameDto)
+        public async Task<BoardGame?> UpdateAsync(int id, UpdateBoardGameRequestDto boardGameDto)
         {
             var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
             if (boardGame == null)

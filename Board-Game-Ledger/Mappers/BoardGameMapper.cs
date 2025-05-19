@@ -5,14 +5,15 @@ namespace Board_Game_Ledger.Mappers
 {
     public static class BoardGameMapper
     {
-        public static BoardGame toBoardGameFromCreateDTO(this CreateBoardGameRequestDto boardGameDTO)
+        public static BoardGame toBoardGameFromCreateDTO(this CreateBoardGameRequestDto boardGameDTO,string userId)
         {
             return new BoardGame
             {
                 Name = boardGameDTO.Name,
                 Genre = boardGameDTO.Genre,
                 MinPlayerCount = boardGameDTO.MinPlayerCount,
-                MaxPlayerCount = boardGameDTO.MaxPlayerCount
+                MaxPlayerCount = boardGameDTO.MaxPlayerCount,
+                AppUserId = userId
             };
         }
 
@@ -25,6 +26,16 @@ namespace Board_Game_Ledger.Mappers
                 Genre = boardGame.Genre,
                 MinPlayerCount = boardGame.MinPlayerCount,
                 MaxPlayerCount = boardGame.MaxPlayerCount
+            };
+        }
+        public static BoardGame toBoardGameFromUpdateDTO(this UpdateBoardGameRequestDto boardGameDTO)
+        {
+            return new BoardGame
+            {
+                Name = boardGameDTO.Name,
+                Genre = boardGameDTO.Genre,
+                MinPlayerCount = boardGameDTO.MinPlayerCount,
+                MaxPlayerCount = boardGameDTO.MaxPlayerCount,
             };
         }
     }
