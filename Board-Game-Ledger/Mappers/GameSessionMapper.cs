@@ -27,14 +27,15 @@ namespace Board_Game_Ledger.Mappers
             };
 
         }
-        public static GameSession toGameSessionFromCreateRequest(this CreateGameSessionRequestDto dto)
+        public static GameSession toGameSessionFromCreateRequest(this CreateGameSessionRequestDto dto, string appUserId)
         {
             return new GameSession
             {
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
-                PlayerCount = dto.GameSessionPlayers.Count()
+                PlayerCount = dto.GameSessionPlayers.Count(),
+                AppUserId = appUserId
             };
         }
         public static GameSession toGameSessionFromUpdateRequest(this UpdateGameSessionRequestDto dto)

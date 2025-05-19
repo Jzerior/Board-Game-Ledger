@@ -10,7 +10,8 @@ namespace Board_Game_Ledger.Models
         public string Genre { get; set; } = string.Empty;
         public int MinPlayerCount { get; set; }
         public int MaxPlayerCount { get; set; }
-
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public List<GameSession> Sessions { get; set; }
     }
 }

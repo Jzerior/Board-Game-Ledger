@@ -1,10 +1,12 @@
 ﻿using Board_Game_Ledger.DTOs.GameSessionPlayer;
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Authorize]
     [Route("api/sessionPlayer")]
     [ApiController]
     public class GameSessionPlayerController : ControllerBase
