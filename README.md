@@ -1,7 +1,7 @@
 # Board Game Ledger
 ##  Project Overview
 
-The main goal of this project is to allow users to track how often they play specific board games and highlight which games are played most frequently and which have been forgotten over time.
+This project is a REST server application built with .NET that allows users to track how often they play specific board games. It highlights which games are played most frequently and which have been forgotten over time.
 
 Additionally, the system is planned to support statistics such as:
 - Which board games of generes of board games user plays the most
@@ -29,7 +29,8 @@ Each entity (games, players, sessions) is, as of now, tied to the authenticated 
 
 This project is still under development.
 
-Core CRUD functionality for board games, players, and sessions is implemented.  
+Core CRUD functionalites for board games, players, and sessions are implemented.
+Authentication and authorization is implemented.
 However, **statistics endpoints are not yet developed**.
 
 Deployment and environment setup are currently not finalized.
