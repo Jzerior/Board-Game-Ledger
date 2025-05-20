@@ -25,7 +25,7 @@ The project uses **ASP.NET Core Identity with JWT-based authentication**. After 
 
 Each entity (games, players, sessions) is, as of now, tied to the authenticated user.
 
-###  Project Status
+##  Project Status
 
 This project is still under development.
 
@@ -33,3 +33,12 @@ Core CRUD functionality for board games, players, and sessions is implemented.
 However, **statistics endpoints are not yet developed**.
 
 Deployment and environment setup are currently not finalized.
+
+### Features yet to be implemented:
+- Statistics endpoints related to boardgame and players
+- Improved validation
+- Some sort of interface for the user (mobile or web app, don't know yet)
+- Storing more data about games, for example which player played which faction
+- Overall improving the application after reciving feedback from test users (my friends who also like to play boardgames)
+- Automated tests
+- Code refactoring
