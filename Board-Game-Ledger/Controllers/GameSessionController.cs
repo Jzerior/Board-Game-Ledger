@@ -29,8 +29,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateGameSessionRequestDto dto)
         {
-            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var session = await _gameSessionService.CreateGameSessionAsync(dto, appUserId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var session = await _gameSessionService.CreateGameSessionAsync(dto, userId);
             return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
         }
         [HttpGet("{id:int}")]

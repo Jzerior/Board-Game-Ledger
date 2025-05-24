@@ -34,8 +34,7 @@ namespace Board_Game_Ledger.Mappers
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
-                PlayerCount = dto.GameSessionPlayers.Count(),
-                AppUserId = appUserId
+                PlayerCount = dto.GameSessionPlayers.Count()
             };
         }
         public static GameSession toGameSessionFromUpdateRequest(this UpdateGameSessionRequestDto dto)

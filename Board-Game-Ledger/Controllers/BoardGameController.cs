@@ -20,7 +20,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var boardgames = await _bgRepository.GetAllAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var boardgames = await _bgRepository.GetAllAsync(userId);
             var boardgamesDto = boardgames.Select(bg => bg.toBGDto()).ToList();
             if (!boardgames.Any())
             {
@@ -31,7 +32,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var boardgame = await _bgRepository.GetByIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var boardgame = await _bgRepository.GetByIdAsync(id, userId);
 
             if (boardgame == null)
             {
@@ -42,7 +44,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var boardgame = await _bgRepository.DeleteAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var boardgame = await _bgRepository.DeleteAsync(id, userId);
             if (boardgame == null)
             {
                 return NotFound();
@@ -69,7 +72,8 @@ namespace Board_Game_Ledger.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var boardGame = await _bgRepository.UpdateAsync(id, boardGameDto);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var boardGame = await _bgRepository.UpdateAsync(id, boardGameDto, userId);
             if (boardGame == null)
             {
                 return NotFound();
