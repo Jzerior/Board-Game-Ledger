@@ -21,9 +21,9 @@ namespace Board_Game_Ledger.Repositories
             return gameSession; 
         }
 
-        public async Task<GameSession?> DeleteAsync(int id)
+        public async Task<GameSession?> DeleteAsync(int id, string userId)
         {
-            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id);
+            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id && gs.AppUserId == userId);
             if(session == null)
             {
                 return null;
@@ -33,37 +33,38 @@ namespace Board_Game_Ledger.Repositories
             return session;
         }
 
-        public async Task<List<GameSession>> GetAllAsync()
+        public async Task<List<GameSession>> GetAllAsync(string userId)
         {
             return await _context.GameSessions
+                .Where(gs => gs.AppUserId == userId)
                 .Include(gs => gs.BoardGame)
                 .Include(gs => gs.GameSessionPlayers)
                 .ThenInclude(gsp => gsp.Player)
                 .ToListAsync();
         }
 
-        public Task<List<GameSession>> GetByBoardGameIdAsync(int boardGameId)
+        public Task<List<GameSession>> GetByBoardGameIdAsync(int boardGameId, string userId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<GameSession?> GetByIdAsync(int id)
+        public async Task<GameSession?> GetByIdAsync(int id, string userId)
         {
             return await _context.GameSessions
                 .Include(gs => gs.BoardGame)
                 .Include(gs => gs.GameSessionPlayers)
                 .ThenInclude(gsp => gsp.Player)
-                .FirstOrDefaultAsync(gs => gs.Id == id);
+                .FirstOrDefaultAsync(gs => gs.Id == id && gs.AppUserId == userId);
         }
 
-        public Task<List<GameSession>> GetByPlayerIdAsync(int playerId)
+        public Task<List<GameSession>> GetByPlayerIdAsync(int playerId, string userId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<GameSession?> UpdateAsync(int id, GameSession gameSession)
+        public async Task<GameSession?> UpdateAsync(int id, GameSession gameSession, string userId)
         {
-            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id);
+            var session = await _context.GameSessions.FirstOrDefaultAsync(gs => gs.Id == id && gs.AppUserId == userId);
             if (session == null)
             {
                 return null;

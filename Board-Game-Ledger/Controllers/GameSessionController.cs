@@ -19,7 +19,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var gameSessions = await _gameSessionService.GetAllAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var gameSessions = await _gameSessionService.GetAllAsync(userId);
             if (!gameSessions.Any())
             {
                 return NotFound();
@@ -36,7 +37,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var session = await _gameSessionService.GetByIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var session = await _gameSessionService.GetByIdAsync(id, userId);
             if (session == null)
                 return NotFound();
             return Ok(session);
@@ -44,7 +46,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var session = await _gameSessionService.DeleteAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var session = await _gameSessionService.DeleteAsync(id, userId);
             if (session == null)
                 return NotFound();
             return NoContent();
@@ -52,7 +55,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateGameSessionRequestDto gameSession)
         {
-            var updatedSession = await _gameSessionService.UpdateAsync(id, gameSession);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var updatedSession = await _gameSessionService.UpdateAsync(id, gameSession, userId);
             if (updatedSession == null)
                 return NotFound();
             return Ok(updatedSession);

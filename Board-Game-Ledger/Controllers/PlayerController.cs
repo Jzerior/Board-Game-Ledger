@@ -24,7 +24,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var players = await _playerRepository.GetAllAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var players = await _playerRepository.GetAllAsync(userId);
             if (!players.Any())
             {
                 return NotFound();
@@ -35,7 +36,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var player = await _playerRepository.GetByIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var player = await _playerRepository.GetByIdAsync(id, userId);
 
             if (player == null)
             {
@@ -47,7 +49,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var player = await _playerRepository.DeleteAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var player = await _playerRepository.DeleteAsync(id, userId);
             if (player == null)
             {
                 return NotFound();
@@ -61,14 +64,14 @@ namespace Board_Game_Ledger.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO(appUserId));
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var createdPlayer = await _playerRepository.CreateAsync(playerDto.toPlayerFromCreateDTO(userId));
             return CreatedAtAction(nameof(GetById), new { id = createdPlayer.Id }, createdPlayer);
         }
         [HttpGet("{name}")]
-        public async Task<IActionResult> GetByNameOrCreateIfDoesNotExist([FromRoute] string name)
+        public async Task<IActionResult> GetByNameOrCreateIfDoesNotExist([FromRoute] string name, string userId)
         {
-            var player = await _playerService.GetByNameOrCreateIfDoesNotExist(name);
+            var player = await _playerService.GetByNameOrCreateIfDoesNotExist(name, userId);
             if (player == null)
             {
                 return NotFound();
@@ -78,7 +81,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id,[FromBody] UpdatePlayerRequestDto playerDto)
         {
-            var player = await _playerRepository.UpdateAsync(id,playerDto);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var player = await _playerRepository.UpdateAsync(id,playerDto, userId);
             if (player == null)
             {
                 return NotFound();
