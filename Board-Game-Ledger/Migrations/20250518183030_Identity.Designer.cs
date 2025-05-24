@@ -4,6 +4,7 @@ using Board_Game_Ledger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Board_Game_Ledger.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250518183030_Identity")]
+    partial class Identity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,10 +97,6 @@ namespace Board_Game_Ledger.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -114,8 +113,6 @@ namespace Board_Game_Ledger.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.ToTable("BoardGames");
                 });
 
@@ -126,10 +123,6 @@ namespace Board_Game_Ledger.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("BoardGameId")
                         .HasColumnType("int");
@@ -144,8 +137,6 @@ namespace Board_Game_Ledger.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("BoardGameId");
 
@@ -181,17 +172,11 @@ namespace Board_Game_Ledger.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Players");
                 });
@@ -220,20 +205,6 @@ namespace Board_Game_Ledger.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0a276f8b-09fc-4093-8d37-0aa162971c69",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "0ecce5f5-400d-4e90-abae-8f4911f28e47",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -342,32 +313,13 @@ namespace Board_Game_Ledger.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Board_Game_Ledger.Models.BoardGame", b =>
-                {
-                    b.HasOne("Board_Game_Ledger.Models.AppUser", "AppUser")
-                        .WithMany("BoardGames")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("Board_Game_Ledger.Models.GameSession", b =>
                 {
-                    b.HasOne("Board_Game_Ledger.Models.AppUser", "AppUser")
-                        .WithMany("GameSessions")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Board_Game_Ledger.Models.BoardGame", "BoardGame")
                         .WithMany("Sessions")
                         .HasForeignKey("BoardGameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("BoardGame");
                 });
@@ -389,17 +341,6 @@ namespace Board_Game_Ledger.Migrations
                     b.Navigation("GameSession");
 
                     b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("Board_Game_Ledger.Models.Player", b =>
-                {
-                    b.HasOne("Board_Game_Ledger.Models.AppUser", "AppUser")
-                        .WithMany("Players")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,15 +392,6 @@ namespace Board_Game_Ledger.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Board_Game_Ledger.Models.AppUser", b =>
-                {
-                    b.Navigation("BoardGames");
-
-                    b.Navigation("GameSessions");
-
-                    b.Navigation("Players");
                 });
 
             modelBuilder.Entity("Board_Game_Ledger.Models.BoardGame", b =>

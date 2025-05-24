@@ -27,7 +27,7 @@ namespace Board_Game_Ledger.Mappers
             };
 
         }
-        public static GameSession toGameSessionFromCreateRequest(this CreateGameSessionRequestDto dto)
+        public static GameSession toGameSessionFromCreateRequest(this CreateGameSessionRequestDto dto, string appUserId)
         {
             return new GameSession
             {

@@ -2,7 +2,6 @@
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
-using Board_Game_Ledger.Models;
 
 namespace Board_Game_Ledger.Services
 {
