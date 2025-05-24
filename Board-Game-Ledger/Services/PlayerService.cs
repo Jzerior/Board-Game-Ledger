@@ -12,9 +12,9 @@ namespace Board_Game_Ledger.Services
         {
             _playerRepository = playerRepository;
         }
-        public async Task<PlayerDto> GetByNameOrCreateIfDoesNotExist(string name)
+        public async Task<PlayerDto> GetByNameOrCreateIfDoesNotExist(string name, string userId)
         {
-            var player = await _playerRepository.GetByNameAsync(name);
+            var player = await _playerRepository.GetByNameAsync(name, userId);
             if (player == null)
             {
                 player  = await _playerRepository.CreateAsync(new Models.Player
@@ -24,9 +24,9 @@ namespace Board_Game_Ledger.Services
             }
             return player.toPlayerDTO();
         }
-        public async Task<PlayerDto> UpdateAsync(int id, UpdatePlayerRequestDto playerDto)
+        public async Task<PlayerDto> UpdateAsync(int id, UpdatePlayerRequestDto playerDto, string userId)
         {
-            var player = await _playerRepository.UpdateAsync(id, playerDto);
+            var player = await _playerRepository.UpdateAsync(id, playerDto,userId);
             return player.toPlayerDTO();
         }
     }

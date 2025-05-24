@@ -28,7 +28,7 @@ namespace Board_Game_Ledger.Repositories
             return players;
         }
 
-        public async Task<Player?> DeleteAsync(int id)
+        public async Task<Player?> DeleteAsync(int id, string userId)
         {
             var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == id);
             if (player == null)
@@ -40,24 +40,26 @@ namespace Board_Game_Ledger.Repositories
             return player;
         }
 
-        public async Task<List<Player>> GetAllAsync()
+        public async Task<List<Player>> GetAllAsync(string userId)
         {
-            return await _context.Players.ToListAsync();
+            return await _context.Players
+                .Where(p => p.AppUserId == userId)
+                .ToListAsync();
         }
 
-        public async Task<Player?> GetByIdAsync(int id)
+        public async Task<Player?> GetByIdAsync(int id, string userId)
         {
-            return await _context.Players.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Players.FirstOrDefaultAsync(p => p.Id == id && p.AppUserId == userId);
         }
 
-        public async Task<Player?> GetByNameAsync(string name)
+        public async Task<Player?> GetByNameAsync(string name, string userId)
         {
-            return await _context.Players.FirstOrDefaultAsync(p => p.Name == name);
+            return await _context.Players.FirstOrDefaultAsync(p => p.Name == name && p.AppUserId == userId);
         }
 
-        public async Task<Player?> UpdateAsync(int id,UpdatePlayerRequestDto playerDto)
+        public async Task<Player?> UpdateAsync(int id,UpdatePlayerRequestDto playerDto, string userId)
         {
-            var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == id);
+            var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == id && p.AppUserId == userId);
             if (player == null)
             {
                 return null;

@@ -36,7 +36,7 @@ namespace Board_Game_Ledger.Repositories
         {
             return await _context.BoardGames
                 .Where(bg => bg.AppUserId == userId)
-         .ToListAsync();
+                .ToListAsync();
         }
 
         public async Task<BoardGame?> GetByIdAsync(int id, string userId)
