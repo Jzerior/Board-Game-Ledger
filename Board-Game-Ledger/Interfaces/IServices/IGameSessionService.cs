@@ -5,10 +5,10 @@ namespace Board_Game_Ledger.Interfaces.IServices
 {
     public interface IGameSessionService
     {
-        Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string appUserId);
-        Task<GameSessionDto?> GetByIdAsync(int id);
-        Task<List<GameSessionDto>> GetAllAsync();
-        Task<GameSession> DeleteAsync(int id);
-        Task<GameSession?> UpdateAsync(int id, UpdateGameSessionRequestDto gameSessionDto);
+        Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string userId);
+        Task<GameSessionDto?> GetByIdAsync(int id, string userId);
+        Task<List<GameSessionDto>> GetAllAsync(string userId);
+        Task<GameSession> DeleteAsync(int id, string userId);
+        Task<GameSession?> UpdateAsync(int id, UpdateGameSessionRequestDto gameSessionDto, string userId);
     }
 }
