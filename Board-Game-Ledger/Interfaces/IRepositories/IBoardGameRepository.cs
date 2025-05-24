@@ -5,11 +5,11 @@ namespace Board_Game_Ledger.Interfaces.IRepositories
 {
     public interface IBoardGameRepository
     {
-        Task<List<BoardGame>> GetAllAsync();
-        Task<BoardGame?> GetByIdAsync(int id);
-        Task<BoardGame?> GetByNameAsync(string name);
+        Task<List<BoardGame>> GetAllAsync(string userId);
+        Task<BoardGame?> GetByIdAsync(int id, string userId);
+        Task<BoardGame?> GetByNameAsync(string name, string userId);
         Task<BoardGame> CreateAsync(BoardGame boardGame);
-        Task<BoardGame?> UpdateAsync(int id,CreateBoardGameRequestDto boardGameDto);
-        Task<BoardGame?> DeleteAsync(int id);
+        Task<BoardGame?> UpdateAsync(int id,UpdateBoardGameRequestDto boardGameDto, string userId);
+        Task<BoardGame?> DeleteAsync(int id, string userId);
     }
 }

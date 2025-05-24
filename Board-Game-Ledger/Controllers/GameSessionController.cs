@@ -1,9 +1,12 @@
-﻿using Board_Game_Ledger.DTOs.GameSession;
+﻿using System.Security.Claims;
+using Board_Game_Ledger.DTOs.GameSession;
 using Board_Game_Ledger.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Board_Game_Ledger.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/gamesession")]
     public class GameSessionController : ControllerBase
@@ -26,7 +29,8 @@ namespace Board_Game_Ledger.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateGameSessionRequestDto dto)
         {
-            var session = await _gameSessionService.CreateGameSessionAsync(dto);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var session = await _gameSessionService.CreateGameSessionAsync(dto, userId);
             return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
         }
         [HttpGet("{id:int}")]

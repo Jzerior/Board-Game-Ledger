@@ -20,9 +20,9 @@ namespace Board_Game_Ledger.Repositories
             return boardGame;
         }
 
-        public async Task<BoardGame?> DeleteAsync(int id)
+        public async Task<BoardGame?> DeleteAsync(int id, string userId)
         {
-            var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
+            var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id && bg.AppUserId == userId);
             if (boardGame == null)
             {
                 return null;
@@ -32,24 +32,26 @@ namespace Board_Game_Ledger.Repositories
             return boardGame;
         }
 
-        public async Task<List<BoardGame>> GetAllAsync()
+        public async Task<List<BoardGame>> GetAllAsync(string userId)
         {
-            return await _context.BoardGames.ToListAsync();
+            return await _context.BoardGames
+                .Where(bg => bg.AppUserId == userId)
+         .ToListAsync();
         }
 
-        public async Task<BoardGame?> GetByIdAsync(int id)
+        public async Task<BoardGame?> GetByIdAsync(int id, string userId)
         {
-            return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
+            return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id && bg.AppUserId == userId);
         }
 
-        public async Task<BoardGame?> GetByNameAsync(string name)
+        public async Task<BoardGame?> GetByNameAsync(string name, string userId)
         {
-            return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Name == name);
+            return await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Name == name && bg.AppUserId == userId);
         }
 
-        public async Task<BoardGame?> UpdateAsync(int id, CreateBoardGameRequestDto boardGameDto)
+        public async Task<BoardGame?> UpdateAsync(int id, UpdateBoardGameRequestDto boardGameDto, string userId)
         {
-            var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
+            var boardGame = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id && bg.AppUserId == userId);
             if (boardGame == null)
             {
                 return null;
