@@ -12,5 +12,7 @@ namespace Board_Game_Ledger.DTOs.GameSessionPlayer
         public int PlayerId { get; set; }
         public int? Place { get; set; }
         public int? Score { get; set; }
+        public bool? IsWinner { get; set; }
+        public string? Faction { get; set; }
     }
 }
