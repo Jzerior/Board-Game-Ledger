@@ -2,6 +2,7 @@
 using Board_Game_Ledger.Interfaces.IRepositories;
 using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Mappers;
+using Board_Game_Ledger.Models;
 
 namespace Board_Game_Ledger.Services
 {
@@ -12,6 +13,13 @@ namespace Board_Game_Ledger.Services
         {
             _playerRepository = playerRepository;
         }
+
+        public async Task<PlayerDto> CreateAssociatedPlayerAsync(Player player)
+        {
+            var createdPlayer = await _playerRepository.CreateAsync(player);
+            return createdPlayer.toPlayerDTO();
+        }
+
         public async Task<PlayerDto> GetByNameOrCreateIfDoesNotExist(string name, string userId)
         {
             var player = await _playerRepository.GetByNameAsync(name, userId);
