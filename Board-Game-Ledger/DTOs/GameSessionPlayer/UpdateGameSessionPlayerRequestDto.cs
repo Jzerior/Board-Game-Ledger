@@ -13,6 +13,8 @@ namespace Board_Game_Ledger.DTOs.GameSessionPlayer
         public int? Place { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "Wynik nie może być ujemny")]
         public int? Score { get; set; }
+        [Required]
+        public int PlayerId { get; set; }
         public bool? IsWinner { get; set; }
         [MaxLength(100, ErrorMessage = "Nazwa frakcji nie może przekroczyć 100 znaków")]
         public string? Faction { get; set; }

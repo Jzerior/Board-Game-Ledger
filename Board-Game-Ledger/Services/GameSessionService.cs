@@ -23,6 +23,7 @@ namespace Board_Game_Ledger.Services
         public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string userId)
         {
             var session = dto.toGameSessionFromCreateRequest(userId);
+            Console.WriteLine(userId);
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
             var players = new List<GameSessionPlayer>();

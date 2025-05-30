@@ -27,7 +27,8 @@ namespace Board_Game_Ledger.Services
             {
                 player  = await _playerRepository.CreateAsync(new Models.Player
                 {
-                    Name = name
+                    Name = name,
+                    AppUserId = userId
                 });
             }
             return player.toPlayerDTO();
