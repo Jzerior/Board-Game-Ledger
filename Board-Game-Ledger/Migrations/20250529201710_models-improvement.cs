@@ -23,6 +23,13 @@ namespace Board_Game_Ledger.Migrations
                 keyValue: "0ecce5f5-400d-4e90-abae-8f4911f28e47");
 
             migrationBuilder.AddColumn<string>(
+                name: "AssociatedUserId",
+                table: "Players",
+                type: "varchar(255)",
+                nullable: true)
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.AddColumn<string>(
                 name: "Description",
                 table: "GameSessions",
                 type: "TEXT",
@@ -47,23 +54,47 @@ namespace Board_Game_Ledger.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "c3260109-da12-4119-adef-d104267deeed", null, "Admin", "ADMIN" },
-                    { "f882e27e-89e8-4c15-bad0-7ae1f430e893", null, "User", "USER" }
+                    { "359798e3-96e6-433f-8336-6bb30a30d272", null, "User", "USER" },
+                    { "ec5aabca-eb3a-40b1-abc4-48ed9b725a06", null, "Admin", "ADMIN" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_AssociatedUserId",
+                table: "Players",
+                column: "AssociatedUserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Players_AspNetUsers_AssociatedUserId",
+                table: "Players",
+                column: "AssociatedUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "c3260109-da12-4119-adef-d104267deeed");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Players_AspNetUsers_AssociatedUserId",
+                table: "Players");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Players_AssociatedUserId",
+                table: "Players");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "f882e27e-89e8-4c15-bad0-7ae1f430e893");
+                keyValue: "359798e3-96e6-433f-8336-6bb30a30d272");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "ec5aabca-eb3a-40b1-abc4-48ed9b725a06");
+
+            migrationBuilder.DropColumn(
+                name: "AssociatedUserId",
+                table: "Players");
 
             migrationBuilder.DropColumn(
                 name: "Description",

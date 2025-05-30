@@ -37,6 +37,18 @@ namespace Board_Game_Ledger.Data
                 .HasForeignKey(gsp => gsp.PlayerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Player>()
+                .HasOne(p => p.AppUser)
+                .WithMany(u => u.Players)
+                .HasForeignKey(p => p.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Player>()
+                .HasOne(p => p.AssociatedUser)
+                .WithMany()
+                .HasForeignKey(p => p.AssociatedUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole

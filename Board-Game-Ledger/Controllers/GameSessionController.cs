@@ -30,6 +30,10 @@ namespace Board_Game_Ledger.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateGameSessionRequestDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var session = await _gameSessionService.CreateGameSessionAsync(dto, userId);
             return CreatedAtAction(nameof(GetById), new { id = session.Id }, session);
@@ -55,6 +59,10 @@ namespace Board_Game_Ledger.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateGameSessionRequestDto gameSession)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var updatedSession = await _gameSessionService.UpdateAsync(id, gameSession, userId);
             if (updatedSession == null)
