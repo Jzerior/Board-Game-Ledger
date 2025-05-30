@@ -23,7 +23,9 @@ namespace Board_Game_Ledger.Mappers
                 PlayerId = p.PlayerId,
                 Place = p.Place,
                 Player = p.Player.toPlayerDTO(),
-                Score = p.Score
+                Score = p.Score,
+                IsWinner = p.IsWinner,
+                Faction = p.Faction,
             }).ToList()
             };
 
