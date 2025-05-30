@@ -16,6 +16,7 @@ namespace Board_Game_Ledger.Mappers
                 Duration = gameSession.Duration,
                 BoardGame = gameSession.BoardGame.toBGDto(),
                 PlayerCount = gameSession.PlayerCount,
+                Description = gameSession.Description,
                 GameSessionPlayers = gameSession.GameSessionPlayers?
             .Select(p => new GameSessionPlayerDto
             {
@@ -34,6 +35,8 @@ namespace Board_Game_Ledger.Mappers
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
+                Description = dto.Description,
+                AppUserId = appUserId,
                 PlayerCount = dto.GameSessionPlayers.Count()
             };
         }
@@ -44,6 +47,7 @@ namespace Board_Game_Ledger.Mappers
                 BoardGameId = dto.BoardGameId,
                 PlayedAt = dto.PlayedAt,
                 Duration = dto.Duration,
+                Description = dto.Description,
                 //PlayerCount = dto.GameSessionPlayers.Count()
             };
         }

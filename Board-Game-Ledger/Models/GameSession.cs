@@ -13,6 +13,8 @@ namespace Board_Game_Ledger.Models
         public int? Duration { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
+        [Column(TypeName = "TEXT")]
+        public string? Description { get; set; }
         public List<GameSessionPlayer> GameSessionPlayers { get; set; } = new List<GameSessionPlayer>();
     }
 }

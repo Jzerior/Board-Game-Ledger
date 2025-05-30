@@ -23,6 +23,7 @@ namespace Board_Game_Ledger.Services
         public async Task<GameSession> CreateGameSessionAsync(CreateGameSessionRequestDto dto, string userId)
         {
             var session = dto.toGameSessionFromCreateRequest(userId);
+            Console.WriteLine(userId);
             await _gameSessionRepository.CreateAsync(session);
             int sessionId = session.Id;
             var players = new List<GameSessionPlayer>();
@@ -34,7 +35,9 @@ namespace Board_Game_Ledger.Services
                     GameSessionId = sessionId,
                     PlayerId = player.Id,
                     Place = playerDto.Place,
-                    Score = playerDto.Score
+                    Score = playerDto.Score,
+                    IsWinner = playerDto.IsWinner,
+                    Faction = playerDto.Faction
                 });
             }
             await _gameSessionPlayerRepository.CreateRangeAsync(players);
