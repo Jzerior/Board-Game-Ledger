@@ -194,6 +194,9 @@ namespace Board_Game_Ledger.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("AssociatedUserId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -201,6 +204,8 @@ namespace Board_Game_Ledger.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("AssociatedUserId");
 
                     b.ToTable("Players");
                 });
@@ -233,13 +238,13 @@ namespace Board_Game_Ledger.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c3260109-da12-4119-adef-d104267deeed",
+                            Id = "ec5aabca-eb3a-40b1-abc4-48ed9b725a06",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f882e27e-89e8-4c15-bad0-7ae1f430e893",
+                            Id = "359798e3-96e6-433f-8336-6bb30a30d272",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -408,7 +413,14 @@ namespace Board_Game_Ledger.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Board_Game_Ledger.Models.AppUser", "AssociatedUser")
+                        .WithMany()
+                        .HasForeignKey("AssociatedUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("AssociatedUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

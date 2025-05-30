@@ -1,5 +1,6 @@
 ﻿using Board_Game_Ledger.DTOs.Account;
 using Board_Game_Ledger.Interfaces;
+using Board_Game_Ledger.Interfaces.IServices;
 using Board_Game_Ledger.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace Board_Game_Ledger.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
         private readonly SignInManager<AppUser> _signInManager;
-        public AccountController(UserManager<AppUser> user, ITokenService tokenService, SignInManager<AppUser> signInManager)
+        private readonly IPlayerService _playerService;
+        public AccountController(UserManager<AppUser> user, ITokenService tokenService, SignInManager<AppUser> signInManager, IPlayerService playerService)
         {
             _userManager = user;
             _tokenService = tokenService;
             _signInManager = signInManager;
+            _playerService = playerService;
         }
 
         [HttpPost("register")]
@@ -43,6 +46,12 @@ namespace Board_Game_Ledger.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                     if (roleResult.Succeeded)
                     {
+                        await _playerService.CreateAssociatedPlayerAsync(new Models.Player
+                        {
+                            Name = registerDto.Username,
+                            AppUserId = appUser.Id,
+                            AssociatedUserId = appUser.Id,
+                        });
                         return Ok(
                             new NewUserDto
                             {
