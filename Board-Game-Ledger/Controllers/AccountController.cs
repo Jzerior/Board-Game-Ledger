@@ -46,7 +46,7 @@ namespace Board_Game_Ledger.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
                     if (roleResult.Succeeded)
                     {
-                        _playerService.CreateAssociatedPlayerAsync(new Models.Player
+                        await _playerService.CreateAssociatedPlayerAsync(new Models.Player
                         {
                             Name = registerDto.Username,
                             AppUserId = appUser.Id,
