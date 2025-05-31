@@ -35,11 +35,19 @@ However, **statistics endpoints are not yet developed**.
 
 Deployment and environment setup are currently not finalized.
 
+## How to launch it
+ - install .NET 8 or newer.
+ - use some sort of MySQL server (I used the one from XAMPP for development, as I already had it installed).
+ - Navigate to the Board-Game-Ledger/Board-Game-Ledger/ folder in the command line (the folder structure is like this because the project was created in Visual Studio 2022).
+ - use dotnet build.
+ - use dotnet ef database update.
+ - use dotnet watch run to launch the app in development mode, which will allow you to test the endpoints through Swagger.
+
 ### Features yet to be implemented:
 - Statistics endpoints related to boardgame and players
 - Improved validation
 - Some sort of interface for the user (mobile or web app, don't know yet)
-- Storing more data about games, for example which player played which faction
+- ~~Storing more data about games, for example which player played which faction~~
 - Overall improving the application after reciving feedback from test users (my friends who also like to play boardgames)
 - Automated tests
 - Code refactoring
